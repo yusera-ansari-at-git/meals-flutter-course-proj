@@ -3,21 +3,29 @@ import 'package:meals/src/models/meal.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealDetailsSreen extends StatelessWidget {
-  const MealDetailsSreen({super.key, required this.meal});
+  const MealDetailsSreen(
+      {super.key, required this.meal, required this.onToggleFavourite});
   final Meal meal;
-
+  final void Function(Meal meal) onToggleFavourite;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
+        actions: [
+          IconButton(
+              onPressed: () {
+                onToggleFavourite(meal);
+              },
+              icon: Icon(Icons.favorite))
+        ],
       ),
       body: ListView(
         children: [
           FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(meal.imageUrl)),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Text(
