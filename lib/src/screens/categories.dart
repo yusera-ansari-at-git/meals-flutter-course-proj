@@ -10,9 +10,9 @@ class CategoriesScreen extends StatelessWidget {
   final List<Meal> availableMeals;
 
   void _selectCategory(context, Category category) {
-    final meals = availableMeals
-        .where((element) => element.categories.contains(category.id))
-        .toList();
+    final meals = availableMeals.where((element) {
+      return element.categories.contains(category.id);
+    }).toList();
     Navigator.push(context, MaterialPageRoute(builder: (_) {
       return MealsScreen(
         title: category.title,

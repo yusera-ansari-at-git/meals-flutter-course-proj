@@ -28,7 +28,7 @@ class Tabs extends ConsumerStatefulWidget {
 
 class _TabsState extends ConsumerState<Tabs> {
   // final List<Meal> _favouriteMeals = [];
-  Map<Filter, bool> _selectedFilters = kInitialFilters;
+  // Map<Filter, bool> _selectedFilters = kInitialFilters;
   // void _showInfoMessage(String message) {
   //   ScaffoldMessenger.of(context).clearSnackBars();
   //   ScaffoldMessenger.of(context).showSnackBar(
@@ -58,42 +58,49 @@ class _TabsState extends ConsumerState<Tabs> {
   }
 
   void _setScreen(String indentifier) async {
-    Navigator.pop(context);
+    Navigator.pop(context); //hide drawer
     if (indentifier == "filters") {
-      final result = await Navigator.push<Map<Filter, bool>>(
+      // final result = await Navigator.push<Map<Filter, bool>>(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (_) {
+      //       return FiltersScreen();
+      //     },
+      //   ),
+      Navigator.push<Map<Filter, bool>>(
         context,
         MaterialPageRoute(
           builder: (_) {
-            return FiltersScreen(
-              currentFilters: _selectedFilters,
-            );
+            return const FiltersScreen();
           },
         ),
       );
-      setState(() {
-        _selectedFilters = result ?? kInitialFilters;
-      });
+      // setState(() {
+      //   _selectedFilters = result ?? kInitialFilters;
+      // });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(mealsProvider);
-    final availableMeals = meals.where((meal) {
-      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
-        return false;
-      }
-      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
-        return false;
-      }
-      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
-        return false;
-      }
-      if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
-        return false;
-      }
-      return true;
-    }).toList();
+    final availableMeals = ref.watch(filteredMealsProvider);
+    // final meals = ref.watch(mealsProvider);
+    // final acyiveFilters = ref.watch(filtersProvider);
+    // final availableMeals = meals.where((meal) {
+    //   if (acyiveFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
+    //     return false;
+    //   }
+    //   if (acyiveFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+    //     return false;
+    //   }
+    //   if (acyiveFilters[Filter.vegetarian]! && !meal.isVegetarian) {
+    //     return false;
+    //   }
+    //   if (acyiveFilters[Filter.vegan]! && !meal.isVegan) {
+    //     return false;
+    //   }
+    //   return true;
+    // }).toList();
     Widget activePage = CategoriesScreen(
       availableMeals: availableMeals,
     );
